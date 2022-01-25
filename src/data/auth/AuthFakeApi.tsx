@@ -1,8 +1,18 @@
 import AuthRepository from "../../domain/repository/auth/AuthRepository";
 import ValidationResult from "../../domain/entity/auth/structures/ValidationResult";
 import AuthorizationResult from "../../domain/entity/auth/structures/AuthorizationResult";
+import { IApiClient } from '../../core/api/ApiClient';
+import ApiClient from '../../core/api/ApiClient';
+import { ApiConfiguration } from "../../core/api/ApiConfiguration";
 
 export default class AuthFakeApi implements AuthRepository {
+  profileApiClient: IApiClient;
+
+  constructor() {
+    let conf = new ApiConfiguration();
+    this.profileApiClient = new ApiClient(conf);
+  }
+
   validateCredentials(email: string, password: string): Promise<ValidationResult> {
     return new Promise((resolve, reject)=> {
       if (password.length < 5) {
