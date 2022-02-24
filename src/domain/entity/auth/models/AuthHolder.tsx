@@ -3,7 +3,7 @@ import AuthListener from "./AuthListener";
 export default class AuthHolder {
   private authListeners: AuthListener[];
   private isAuthorized: boolean;
-  private authToken: string;
+  private authToken?: string;
 
   public constructor() {
     this.isAuthorized = false;
@@ -11,7 +11,7 @@ export default class AuthHolder {
     this.authToken = '';
   }
 
-  public onSignedIn(authToken: string): void {
+  public onSignedIn(authToken?: string): void {
     this.isAuthorized = true;
     this.authToken = authToken;
     this.notifiyListeners();

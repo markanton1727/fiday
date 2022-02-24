@@ -1,3 +1,3 @@
 export default interface AuthorizationResult {
-  authorizationToken: string;
+  access_token?: string;
 }

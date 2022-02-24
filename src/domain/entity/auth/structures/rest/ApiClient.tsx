@@ -10,6 +10,8 @@ export interface IApiClient {
     path: string,
     object: TRequest
   ): Promise<TResponse>;
-  put<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>;
+  put<TRequest, TResponse>(
+    path: string, object: TRequest
+  ): Promise<TResponse>;
   get<TResponse>(path: string): Promise<TResponse>;
 }

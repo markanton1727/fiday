@@ -7,16 +7,13 @@ import { IApiClient } from '../../domain/entity/auth/structures/rest/ApiClient';
 export default class ApiClient implements IApiClient { 
   private client: AxiosInstance;
 
-  protected createAxiosClient(
-    apiConfiguration: ApiConfiguration
-  ): AxiosInstance {
+  protected createAxiosClient(apiConfiguration: ApiConfiguration): AxiosInstance {
     return Axios.create({
-      baseURL: 'http://localhost:3000/api/v1',
       responseType: 'json' as const,
       headers: {
         'Content-Type': 'application/json',
         ...(apiConfiguration.accessToken && {
-          Authorization: `Token ${apiConfiguration.accessToken}`,
+          Authorization: `Bearer ${apiConfiguration.accessToken}`,
         }),
       },
       timeout: 10 * 1000,

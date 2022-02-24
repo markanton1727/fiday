@@ -1,5 +1,6 @@
 import AuthRepository from "../../repository/auth/AuthRepository";
 import AuthHolder from "../../entity/auth/models/AuthHolder";
+import { loginService } from "../../../data/Services";
 
 export default class LoginUseCase {
   private authRepository: AuthRepository;
@@ -18,6 +19,6 @@ export default class LoginUseCase {
       validationResult.validationKey
     );
 
-    this.authHolder.onSignedIn(authResult.authorizationToken);
+    this.authHolder.onSignedIn(authResult.access_token);
   }
 }

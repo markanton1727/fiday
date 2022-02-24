@@ -1,18 +1,8 @@
 import AuthRepository from "../../domain/repository/auth/AuthRepository";
 import ValidationResult from "../../domain/entity/auth/structures/ValidationResult";
 import AuthorizationResult from "../../domain/entity/auth/structures/AuthorizationResult";
-import { IApiClient } from '../../core/api/ApiClient';
-import ApiClient from '../../core/api/ApiClient';
-import { ApiConfiguration } from "../../core/api/ApiConfiguration";
-
+import { loginService } from "../Services";
 export default class AuthFakeApi implements AuthRepository {
-  profileApiClient: IApiClient;
-
-  constructor() {
-    let conf = new ApiConfiguration();
-    this.profileApiClient = new ApiClient(conf);
-  }
-
   validateCredentials(email: string, password: string): Promise<ValidationResult> {
     return new Promise((resolve, reject)=> {
       if (password.length < 5) {
@@ -26,14 +16,13 @@ export default class AuthFakeApi implements AuthRepository {
     })
   }
 
-  login(email: string, password: string, validationKey: string): Promise<AuthorizationResult> {
+  async login(email: string, password: string, validationKey: string): Promise<AuthorizationResult> {
+    const response = await loginService.Login(email, password);
     return new Promise((resolve, reject) => {
-      if (validationKey === 'AAA') {
-        if (email === 'marco@yop.mail' && password === 'password') {
-          resolve ({
-            authorizationToken: 'Bearer AAA'
-          });
-        }
+      if (validationKey === 'AAA' && response?.access_token) {
+        resolve ({
+          access_token: response?.access_token
+        });
       } else {
         reject(new Error('Validation Key is invalid'));
         return;
