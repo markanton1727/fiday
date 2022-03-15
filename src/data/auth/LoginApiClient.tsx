@@ -11,6 +11,8 @@ export class LoginApiClient implements ILoginApiClient {
   }
 
   async login(username: string, password: string): Promise<AuthorizationResult | undefined> {
+    const endPoint:string = 'oauth/token';
+
     try {
       const headers: HttpHeaders = { 
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -21,7 +23,7 @@ export class LoginApiClient implements ILoginApiClient {
       }
 
       const response = await this.loginApiClient.post<string, AuthorizationResult>(
-        `http://localhost:3500/oauth/token`,
+        `${process.env.REACT_APP_API_BASE_URL}/${endPoint}`,
         `grant_type=password&username=${username}&password=${password}`,
         config
       )
